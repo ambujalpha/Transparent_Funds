@@ -16,6 +16,21 @@ export default {
             ]
         },
         {
+            id: 'timeline',
+            title: 'Timeline',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'timeline',
+                    title: 'Timeline',
+                    type: 'item',
+                    url: '/timeline/timeline',
+                    icon: 'feather icon-home',
+                }
+            ]
+        },
+        {
             id: 'ui-element',
             title: 'UI ELEMENT',
             type: 'group',
