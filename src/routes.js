@@ -11,6 +11,8 @@ const TimelineTimeline = React.lazy(() => import('./Demo/Timeline/Timeline'));
 
 const VotingVoting = React.lazy(() => import('./Demo/Voting/Voting'));
 
+const ContractContract = React.lazy(() => import('./Demo/Contract/Contract'));
+
 const UIBasicButton = React.lazy(() => import('./Demo/UIElements/Basic/Button'));
 const UIBasicBadges = React.lazy(() => import('./Demo/UIElements/Basic/Badges'));
 const UIBasicBreadcrumbPagination = React.lazy(() => import('./Demo/UIElements/Basic/BreadcrumbPagination'));
@@ -33,6 +35,7 @@ const OtherDocs = React.lazy(() => import('./Demo/Other/Docs'));
 const routes = [
     { path: '/dashboard/default', exact: true, name: 'Default', component: DashboardDefault },
     { path: '/voting/voting', exact: true, name: 'Voting', component: VotingVoting },
+    { path: '/contract/contract', exact: true, name: 'Contract', component: ContractContract },
     { path: '/timeline/timeline', exact: true, name: 'Timeline', component: TimelineTimeline },
     { path: '/basic/button', exact: true, name: 'Basic Button', component: UIBasicButton },
     { path: '/basic/badges', exact: true, name: 'Basic Badges', component: UIBasicBadges },

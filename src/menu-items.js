@@ -46,6 +46,21 @@ export default {
             ]
         },
         {
+            id: 'contract',
+            title: 'Contract',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'contract',
+                    title: 'Contract',
+                    type: 'item',
+                    url: '/contract/contract',
+                    icon: 'feather icon-home',
+                }
+            ]
+        },
+        {
             id: 'ui-element',
             title: 'UI ELEMENT',
             type: 'group',
