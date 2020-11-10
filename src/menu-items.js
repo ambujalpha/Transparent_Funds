@@ -40,7 +40,7 @@ export default {
                     id: 'voting',
                     title: 'Voting',
                     type: 'item',
-                    url: '/timeline/timeline',
+                    url: '/voting/voting',
                     icon: 'feather icon-home',
                 }
             ]

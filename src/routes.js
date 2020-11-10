@@ -9,7 +9,7 @@ const DashboardDefault = React.lazy(() => import('./Demo/Dashboard/Default'));
 
 const TimelineTimeline = React.lazy(() => import('./Demo/Timeline/Timeline'));
 
-const VotingVoting = React.lazy(() => import('./Demo/Voting/voting'));
+const VotingVoting = React.lazy(() => import('./Demo/Voting/Voting'));
 
 const UIBasicButton = React.lazy(() => import('./Demo/UIElements/Basic/Button'));
 const UIBasicBadges = React.lazy(() => import('./Demo/UIElements/Basic/Badges'));
