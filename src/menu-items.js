@@ -31,6 +31,21 @@ export default {
             ]
         },
         {
+            id: 'voting',
+            title: 'Voting',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'voting',
+                    title: 'Voting',
+                    type: 'item',
+                    url: '/timeline/timeline',
+                    icon: 'feather icon-home',
+                }
+            ]
+        },
+        {
             id: 'ui-element',
             title: 'UI ELEMENT',
             type: 'group',
