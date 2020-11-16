@@ -6,10 +6,10 @@ contract SimpleStorage {
     struct Voter {
         bool authorized;
         bool voted;
-        uint vote;
+        address votedTo;
     }
     struct Canditate {
-        string name;
+        address name;
         uint voteCount;
     }
     struct Tender{
@@ -18,6 +18,7 @@ contract SimpleStorage {
         uint date;
     }
     
+    
     address public owner;
     mapping(address =>Voter) public voters;
     Canditate[] public candidates;
@@ -25,7 +26,12 @@ contract SimpleStorage {
     
     uint public totalVotes;
 
-    constructor() public {
+    // constructor() public {
+    //     owner = msg.sender;
+    // }
+    
+    function setOwner () public{
+        require(owner == address(0), "owner is already defined");
         owner = msg.sender;
     }
 
@@ -51,7 +57,7 @@ contract SimpleStorage {
         voters[_person].authorized = true;
     }
     
-    function addCandidate(string memory _name) ownerOnly public {
+    function addCandidate(address _name) ownerOnly public {
         Canditate memory newStruct = Canditate(_name, 0);
         candidates.push(newStruct);
     }
@@ -62,14 +68,12 @@ contract SimpleStorage {
     function removeAllCandidates() public {
         delete candidates;
     }
-    function vote(uint _voteIndex) public{
+    function vote(address _voteAddress) public{
         require(!voters[msg.sender].voted);
         require(voters[msg.sender].authorized);
 
-        voters[msg.sender].vote = _voteIndex;
+        voters[msg.sender].votedTo = _voteAddress;
         voters[msg.sender].voted = true;
 
-        candidates[_voteIndex].voteCount += 1;
-        totalVotes += 1;
     }
 }

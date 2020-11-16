@@ -13,4 +13,18 @@
 ```
 * Bidding
 	* Bid cost.
-	* Form containing details for their implementation.     
+	* Form containing details for their implementation.
+
+## Bidders Dashboard
+
+### Features
+
+```
+1. Form containing bid amount and all relevant fields to place a bid.
+2. Bid once placed can't be edited.
+3. Bidders can only place bid if added by government dashboard owner.
+4. At a time only one bidding can be performed for a tender for a limited period of time mentioned by government.
+5. A bidder can't see others bids.
+6. On a closing of tender top 5 bidder with least bidding amount will be selected.
+```
+	

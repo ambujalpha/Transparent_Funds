@@ -18,6 +18,7 @@ const App = () => {
   const [isTenderActive, setIsTenderActive] = useState(false)
   const [isOwner, setIsOwner] = useState(true)
   const [isVoter, setIsVoter] = useState(false)
+  const [isCandidate, setIsCandidate] = useState(false)
   const initMetamask = async () => {
     console.log('clicked') 
     window.ethereum.enable()
@@ -32,9 +33,12 @@ const App = () => {
       StorageContract.abi,
       deployedNetwork && deployedNetwork.address
     );
+
+    //to check if current user is voter
     instance.methods.owner().call((err, res)=>{
       console.log('owner of contract is', res);
-      if(res && res != acc[0]){
+        // instance.methods.setOwner().send({from: acc[0]})
+      if(res && res !== acc[0]){
         // alert('you are not owner of contract');
         setIsOwner(false);
         instance.methods.voters(acc[0]).call((err, res) => {
@@ -46,9 +50,15 @@ const App = () => {
         })
       }
     })
+
+
     setAccounts(acc[0])
     setContract(instance)
+
   };  
+
+
+  
 
   const _setTenderNameHelper = async() => {
     if(!accounts){
@@ -145,12 +155,40 @@ const App = () => {
       return;
     }
     try {
-      await contract.methods.addCandidate(candidate).send({from: accounts})
+      if(Web3.utils.isAddress(candidate)){
+        await contract.methods.addCandidate(candidate).send({from: accounts})
+      }
+      else{
+        alert('Invalid Address!');
+        return;
+      }
       // console.log('resss',res);
     } catch (error) {
       console.log('error in adding candidate',error);
     }
   }
+
+  
+  useEffect(() => {
+    const isCandidateHelper = async ()=>{
+      contract.methods.getNumCandidate().call(async (err, len) => {
+        let numCandidates = parseInt(len);
+        for (let index = 0; index < numCandidates; index++) {
+          await contract.methods.candidates(index).call((err, cand) => {
+            // console.log('kya ',cand);
+            if(cand.name === accounts){
+              setIsCandidate(true);
+              return;
+            }
+          })
+        }
+      })
+    }
+
+    if(contract){
+      isCandidateHelper();
+    }
+  }, [contract])
 
   useEffect(() => {
     async function setCandidatesNames(){
@@ -293,11 +331,27 @@ const App = () => {
         </div>
       )
     }else{
-      return (
-        <div className='App' >
-          You are not authorized to view this page
-        </div>
-      )
+      if(isCandidate){
+        return (
+          <div className='App' >
+            You can submit your bid
+            <br/><br/>
+            <form>
+              <input placeholder='bid amount' type='number' /><br/><br/>
+              <textarea id="abcd"  rows="4" cols="50">
+                tender implementation
+              </textarea><br/>
+              <input type='submit' />
+            </form>
+          </div>
+        )
+      }else{
+        return (
+          <div className='App' >
+            You are not authorized to view this page
+          </div>
+        )
+      }
     }
     
   }
