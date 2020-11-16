@@ -7,9 +7,12 @@ contract Bidding {
         uint Cost;
         string[] Form;
     }
-    
     Bid [] public topBids;
+    address public owner;
     
+    function setOwner () public{
+        owner = msg.sender;
+    }
     function setTopBids(uint cost, string[] memory form) public {
         Bid memory newBid = Bid(cost, form);
         topBids.push(newBid);
