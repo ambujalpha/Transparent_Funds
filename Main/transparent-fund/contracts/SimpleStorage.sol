@@ -15,6 +15,7 @@ contract SimpleStorage {
     struct Tender{
         bool status;
         string name;
+        string description;
         uint date;
     }
     
@@ -40,8 +41,8 @@ contract SimpleStorage {
         _;
     }
 
-    function setTender (string memory name, uint date) ownerOnly public {
-        Tender memory newTender = Tender(true, name, date);
+    function setTender (string memory name,string memory description, uint date) ownerOnly public {
+        Tender memory newTender = Tender(true, name, description, date);
         tenders.push(newTender);
     }
     function getNumTenders() public view returns (uint) {
@@ -49,7 +50,7 @@ contract SimpleStorage {
     }
     function removeTender(uint _id) public{
         require(_id < tenders.length);
-        Tender memory newTender = Tender(false, tenders[_id].name, tenders[_id].date);
+        Tender memory newTender = Tender(false, tenders[_id].name, tenders[_id].description, tenders[_id].date);
         tenders[_id] = newTender;
     }
     

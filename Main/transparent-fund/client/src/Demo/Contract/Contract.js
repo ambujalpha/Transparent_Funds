@@ -39,7 +39,7 @@ const FormsElements = () => {
     useEffect(() => {
         async function intialize(){
             await initMetamask();
-          }
+        }
         intialize();
         window.ethereum.on('accountsChanged', intialize)
     }, [])
@@ -88,12 +88,6 @@ const FormsElements = () => {
                                                     <Form.Label>Amount Proposed</Form.Label>
                                                     <Form.Control value={amount} onChange={(e)=>{setAmount(e.target.value)}} type="number" placeholder="Amount" />
                                                 </Form.Group>
-                                                <Form.Group controlId="formBasicChecbox">
-                                                    <Form.Check type="checkbox" label="Check me out" />
-                                                </Form.Group>
-                                                <Button onClick={formResponse}  variant="primary" >
-                                                    Submit
-                                                </Button>
                                             </Form>
                                         
                                     </Col>
@@ -116,6 +110,11 @@ const FormsElements = () => {
                                             <Form.Label>Tell us about your previous work</Form.Label>
                                             <Form.Control value={prevWork} onChange={(e)=>{setPrevWork(e.target.value)}} as="textarea" rows="3" />
                                         </Form.Group>
+                                    </Col>
+                                    <Col md={6} >
+                                        <Button onClick={formResponse}  variant="primary" >
+                                            Submit
+                                        </Button>
                                     </Col>
                                 </Row>
                             </Card.Body>
