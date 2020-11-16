@@ -60,6 +60,7 @@ export default {
                 }
             ]
         },
+        /*
         {
             id: 'ui-element',
             title: 'UI ELEMENT',
@@ -261,7 +262,7 @@ export default {
                     classes: 'nav-item disabled',
                     icon: 'feather icon-power'
                 },
-                /*{
+                {
                     id: 'buy-now',
                     title: 'Buy Now',
                     type: 'item',
@@ -274,8 +275,9 @@ export default {
                         title: 'v1.0',
                         type: 'label-primary'
                     }
-                }*/
+                }
             ]
         }
+        */
     ]
 }
