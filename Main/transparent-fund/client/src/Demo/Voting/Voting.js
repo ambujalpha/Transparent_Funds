@@ -72,7 +72,7 @@ class Dashboard extends React.Component {
         return (
             <Aux>
                 <Row>
-                    <Col md={6} xl={8}>
+                    <Col md={6} xl={12}>
                         <Card className='Recent-Users'>
                             <Card.Header>
                                 <Card.Title as='h5'>Domains</Card.Title>
@@ -89,6 +89,16 @@ class Dashboard extends React.Component {
                                         <td>
                                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>10 MAY - 10 July</h6>
                                         </td>
+                                        <td>
+                                        <form>
+                                            <label htmlFor="cars">Choose a contract:</label>
+                                            <select id="contract" name="contract">
+                                                <option value="volvo">Volvo</option>
+                                                <option value="saab">Saab</option>
+                                                <option value="fiat">Fiat</option>
+                                                <option value="audi">Audi</option>
+                                            </select>
+                                        </form></td>
                                         {// <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Reject</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Approve</a></td>
                                         }<td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
                                     </tr>
@@ -101,6 +111,16 @@ class Dashboard extends React.Component {
                                         <td>
                                             <h6 className="text-muted"><i className="fa fa-circle text-c-red f-10 m-r-15"/>15 MAY - 15 July </h6>
                                         </td>
+                                        <td>
+                                        <form>
+                                            <label htmlFor="cars">Choose a contract:</label>
+                                            <select id="contract" name="contract">
+                                                <option value="volvo">Volvo</option>
+                                                <option value="saab">Saab</option>
+                                                <option value="fiat">Fiat</option>
+                                                <option value="audi">Audi</option>
+                                            </select>
+                                        </form></td>
                                         <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
                                     </tr>
                                     <tr className="unread">
@@ -112,6 +132,16 @@ class Dashboard extends React.Component {
                                         <td>
                                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>10 Jan - 10 Jun</h6>
                                         </td>
+                                        <td>
+                                        <form>
+                                            <label htmlFor="cars">Choose a contract:</label>
+                                            <select id="contract" name="contract">
+                                                <option value="volvo">Volvo</option>
+                                                <option value="saab">Saab</option>
+                                                <option value="fiat">Fiat</option>
+                                                <option value="audi">Audi</option>
+                                            </select>
+                                        </form></td>
                                         <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
                                     </tr>
                                     <tr className="unread">
@@ -123,6 +153,16 @@ class Dashboard extends React.Component {
                                         <td>
                                             <h6 className="text-muted f-w-300"><i className="fa fa-circle text-c-red f-10 m-r-15"/>15 Jun - 15 Aug</h6>
                                         </td>
+                                        <td>
+                                        <form>
+                                            <label htmlFor="cars">Choose a contract:</label>
+                                            <select id="contract" name="contract">
+                                                <option value="volvo">Volvo</option>
+                                                <option value="saab">Saab</option>
+                                                <option value="fiat">Fiat</option>
+                                                <option value="audi">Audi</option>
+                                            </select>
+                                        </form></td>
                                         <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
                                     </tr>
                                     <tr className="unread">
@@ -134,6 +174,16 @@ class Dashboard extends React.Component {
                                         <td>
                                             <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>20 Jun - 20 Aug</h6>
                                         </td>
+                                        <td>
+                                        <form>
+                                            <label htmlFor="cars">Choose a contract:</label>
+                                            <select id="contract" name="contract">
+                                                <option value="volvo">Volvo</option>
+                                                <option value="saab">Saab</option>
+                                                <option value="fiat">Fiat</option>
+                                                <option value="audi">Audi</option>
+                                            </select>
+                                        </form></td>
                                         <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
                                     </tr>
                                     </tbody>

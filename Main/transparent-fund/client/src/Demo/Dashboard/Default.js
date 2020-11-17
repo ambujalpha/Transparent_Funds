@@ -182,23 +182,23 @@ const Dashboard = () =>{
                 <Col md={12} xl={12}>
                     <Card className='Recent-Users'>
                         <Card.Header>
-                            <Card.Title as='h5'>Create Tender</Card.Title>
+                            <Card.Title as='h5'>Create Committee</Card.Title>
                         </Card.Header>
                         <Card.Body className='px-2 py-2'>
                             <Row>
                                 <Col md={12}>
-                                    <Form >
+                                    <Form>
                                         <Form.Group>
-                                            <Form.Label>Tender Name</Form.Label>
-                                            <Form.Control type="text" placeholder="Enter Tender Name" />
+                                            <Form.Label>Member Name</Form.Label>
+                                            <Form.Control type="text" placeholder="Enter Member Name" />
                                         </Form.Group>
-                                        
-                                        <Form.Group >
-                                            <Form.Label>Description</Form.Label>
-                                            <Form.Control as="textarea" rows="3" />
-                                            <Form.Text className="text-muted">
-                                                Give Description about tender.
-                                            </Form.Text>
+                                        <Form.Group>
+                                            <Form.Label>Member Address</Form.Label>
+                                            <Form.Control type="text" placeholder="Enter your address" />
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Form.Label>Member Designation</Form.Label>
+                                            <Form.Control type="text" placeholder="Enter your designation" />
                                         </Form.Group>
                                         
                                         <Button onClick={()=>{console.log('clicked')}}  variant="primary" >
