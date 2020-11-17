@@ -19,7 +19,7 @@ const Dashboard = () =>{
         async function intialize(){
           await initMetamask();
         }
-        // intialize();
+        intialize();
         window.ethereum.on('accountsChanged', intialize)
         
       }, [isOwner])
