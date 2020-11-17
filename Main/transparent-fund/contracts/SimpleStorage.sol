@@ -24,7 +24,8 @@ contract SimpleStorage {
     mapping(address =>Voter) public voters;
     Canditate[] public candidates;
     Tender[] public tenders;
-    
+    address[] public votersAddress;
+
     uint public totalVotes;
 
     // constructor() public {
