@@ -1,21 +1,18 @@
 pragma solidity >=0.4.21 <0.7.0;
-pragma experimental ABIEncoderV2;
 
 contract Bidding {
     
     struct Bid{
         uint Cost;
-        string[] Form;
+        string CompanyName;
+        string prevWork;
+        string domain;
     }
-    Bid [] public topBids;
-    address public owner;
     
-    function setOwner () public{
-        owner = msg.sender;
-    }
-    function setTopBids(uint cost, string[] memory form) public {
-        Bid memory newBid = Bid(cost, form);
-        topBids.push(newBid);
+    Bid [] public topBids;
+    
+    function setTopBids(uint _cost, string memory _companyName, string memory _prevWork, string memory _domain) public {
+        topBids.push(Bid(_cost, _companyName, _prevWork, _domain));
     }
     function getNumBids() public view returns(uint){
         return topBids.length;

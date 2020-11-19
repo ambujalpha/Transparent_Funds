@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react';
 import {Row, Col, Card, Form, Button} from 'react-bootstrap';
 import Bidding from '../../contracts/Bidding.json';
 import Web3 from 'web3';
-
+import domains from '../../assets/Domains'
 import Aux from "../../hoc/_Aux";
 
 const FormsElements = () => {
@@ -13,6 +13,7 @@ const FormsElements = () => {
     const [companyName, setCompanyName] = useState('')
     const [amount, setAmount] = useState('')
     const [prevWork, setPrevWork] = useState('')
+    const [domain, setDomain] = useState(null)
 
     const initMetamask = async () => {
         console.log('clicked') 
@@ -20,10 +21,8 @@ const FormsElements = () => {
         //setting up web3 to talk to meta mask
         const web3 = new Web3(Web3.givenProvider);
         const acc = await web3.eth.getAccounts()
-        console.log('accounts', acc)
         const deployedNetwork = Bidding.networks["5777"];
-        console.log('deployed network is', deployedNetwork)
-    
+        console.log('deployed network is: ', deployedNetwork)
         const instance = new web3.eth.Contract(
           Bidding.abi,
           deployedNetwork && deployedNetwork.address
@@ -35,7 +34,6 @@ const FormsElements = () => {
         setContract(instance)
     
       }; 
-
     useEffect(() => {
         async function intialize(){
             await initMetamask();
@@ -45,19 +43,26 @@ const FormsElements = () => {
     }, [])
 
     const formResponse = async (event) => {
+        if(!domain){
+            alert('select domain');
+            return;
+        }
         if(!companyName || !amount || !prevWork){
             alert('fill all the fields');
             return;
         }
         if(contract){
-           const x = await contract.methods.setTopBids(parseInt(amount), [`companyName: ${companyName}`, `work: ${prevWork}`]).send({from: accounts});
+            console.log('domain is', domain);
+           const x = await contract.methods.setTopBids(parseInt(amount), companyName, prevWork, domain).send({from: accounts});
            console.log('respo is:',x);
            contract.methods.getNumBids().call((err, res) => {
                console.log('number is', res);
            })
+        }else if(!contract){
+            alert('metamask not configured');
         }
     }
-
+    // console.log(domains)
         return (
             <Aux>
                 <Row>
@@ -98,12 +103,13 @@ const FormsElements = () => {
                                         </Form.Group>
                                         <Form.Group controlId="exampleForm.ControlSelect1">
                                             <Form.Label>Select Domain</Form.Label>
-                                            <Form.Control as="select">
-                                                <option>Fire Alarm System</option>
-                                                <option>Water System</option>
-                                                <option>Basic Construction</option>
-                                                <option>Wooden work</option>
-                                                <option>Electricity Work</option>
+                                            <Form.Control onChange={(e) => {setDomain(e.target.value)}} as="select">
+                                                {
+                                                    domains && (
+                                                    domains.map((key, val) => (
+                                                        <option key={val}>{key.name}</option>
+                                                    )))
+                                                }
                                             </Form.Control>
                                         </Form.Group>
                                         <Form.Group controlId="exampleForm.ControlTextarea1">

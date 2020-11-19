@@ -36,7 +36,7 @@ const Dashboard = () =>{
           StorageContract.abi,
           deployedNetwork && deployedNetwork.address
         );
-        console.log('deployed network is', instance)
+        console.log('deployed network is', deployedNetwork)
 
         // instance.methods.setOwner().send({from: acc[0]})
         //to check if current user is owner

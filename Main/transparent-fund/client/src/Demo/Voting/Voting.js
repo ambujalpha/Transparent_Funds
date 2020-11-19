@@ -1,10 +1,11 @@
 /* eslint-disable no-loop-func */
 import React,{useState, useEffect} from 'react';
 import {Row, Col, Card, Table, Tabs, Tab} from 'react-bootstrap';
-
+import domains from '../../assets/Domains'
 import Aux from "../../hoc/_Aux";
 import DEMO from "../../store/constant";
 import VoterContract from '../../contracts/Voter.json';
+import BidContract from '../../contracts/Bidding.json';
 import Web3 from 'web3';
 
 import avatar1 from '../../assets/images/user/avatar-1.jpg';
@@ -13,8 +14,10 @@ import avatar3 from '../../assets/images/user/avatar-3.jpg';
 
 const Dashboard  = () => {
     const [accounts, setAccounts] = useState(null);
-    const [contract, setContract] = useState(null);
+    const [votingContract, setVotingContract] = useState(null);
+    const [bidContract, setBidContract] = useState(null);
     const [allVoters, setAllVoters] = useState([]);
+    const [allTenders, setAllTenders] = useState([])
     useEffect(() => {
         async function intialize(){
           await initMetamask();
@@ -30,35 +33,62 @@ const Dashboard  = () => {
         const web3 = new Web3(Web3.givenProvider);
         const acc = await web3.eth.getAccounts()
         console.log('accounts', acc)
-        const deployedNetwork = VoterContract.networks["5777"];
+        const deployedVoterNetwork = VoterContract.networks["5777"];
+        const deployedBidNetwork = BidContract.networks["5777"];
 
-        const instance = new web3.eth.Contract(
+        const VoterInstance = new web3.eth.Contract(
             VoterContract.abi,
-            deployedNetwork && deployedNetwork.address
+            deployedVoterNetwork && deployedVoterNetwork.address
         );
-        console.log('deployed network is', instance)
+        const BidInstance = new web3.eth.Contract(
+            BidContract.abi,
+            deployedBidNetwork && deployedBidNetwork.address
+        );
+        console.log('voter deployed network is', VoterInstance)
+        console.log('bidder deployed network is', BidInstance)
 
-        setAccounts(acc[0])
-        setContract(instance)
+        setAccounts(acc[0]);
+        setBidContract(BidInstance);
+        setVotingContract(VoterInstance);
     };
     useEffect(() => {
         const getAllVoters = async() => {
-            await contract.methods.getNumVoter().call(async (err, num) => {
+            await votingContract.methods.getNumVoter().call(async (err, num) => {
                 const numVoter = parseInt(num);
                 const arr = [];
                 console.log('total voters are: ', numVoter)
                 for (let index = 0; index < numVoter; index++) {
-                    await contract.methods.voters(index).call((err, voter)=>{
+                    await votingContract.methods.voters(index).call((err, voter)=>{
                         arr.push(voter)
                     })
                 }
                 setAllVoters(arr);
             })
         }   
-        if(contract){
+        if(votingContract){
             getAllVoters()
         } 
-    }, [contract])
+    }, [votingContract])
+    useEffect(() => {
+        const getAllTenders = async() => {
+            await bidContract.methods.getNumBids().call(async (err, num) => {
+                const numTender = parseInt(num);
+                const arr = [];
+                console.log('total tenders are: ', numTender)
+                for (let index = 0; index < numTender; index++) {
+                    await bidContract.methods.topBids(index).call((err, tender)=>{
+                        arr.push(tender)
+                    //  console.log('tender: ',tender)
+                    })
+                }
+                setAllTenders(arr);
+            })
+        }   
+        if(bidContract){
+            getAllTenders()
+        } 
+    }, [bidContract])
+
     const tabContent = (
         <Aux>
             {
@@ -99,112 +129,36 @@ const Dashboard  = () => {
                         <Card.Body className='px-0 py-2'>
                             <Table responsive hover>
                                 <tbody>
-                                <tr className="unread">
-                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
-                                    <td>
-                                        <h6 className="mb-1">Fire Alarm System</h6>
-                                        <p className="m-0">Includes Smoke Detection and Fire extingusher on each floor</p>
-                                    </td>
-                                    <td>
-                                        <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>10 MAY - 10 July</h6>
-                                    </td>
-                                    <td>
-                                    <form>
-                                        <label htmlFor="cars">Choose a contract:</label>
-                                        <select id="contract" name="contract">
-                                            <option value="volvo">Volvo</option>
-                                            <option value="saab">Saab</option>
-                                            <option value="fiat">Fiat</option>
-                                            <option value="audi">Audi</option>
-                                        </select>
-                                    </form></td>
-                                    {// <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Reject</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Approve</a></td>
-                                    }<td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
-                                </tr>
-                                <tr className="unread">
-                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
-                                    <td>
-                                        <h6 className="mb-1">Water System</h6>
-                                        <p className="m-0">Includes work of water tank, water system in whole school and plumber work</p>
-                                    </td>
-                                    <td>
-                                        <h6 className="text-muted"><i className="fa fa-circle text-c-red f-10 m-r-15"/>15 MAY - 15 July </h6>
-                                    </td>
-                                    <td>
-                                    <form>
-                                        <label htmlFor="cars">Choose a contract:</label>
-                                        <select id="contract" name="contract">
-                                            <option value="volvo">Volvo</option>
-                                            <option value="saab">Saab</option>
-                                            <option value="fiat">Fiat</option>
-                                            <option value="audi">Audi</option>
-                                        </select>
-                                    </form></td>
-                                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
-                                </tr>
-                                <tr className="unread">
-                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar3} alt="activity-user"/></td>
-                                    <td>
-                                        <h6 className="mb-1">Basic Contruction</h6>
-                                        <p className="m-0">Design whole building as per the contruction designs</p>
-                                    </td>
-                                    <td>
-                                        <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>10 Jan - 10 Jun</h6>
-                                    </td>
-                                    <td>
-                                    <form>
-                                        <label htmlFor="cars">Choose a contract:</label>
-                                        <select id="contract" name="contract">
-                                            <option value="volvo">Volvo</option>
-                                            <option value="saab">Saab</option>
-                                            <option value="fiat">Fiat</option>
-                                            <option value="audi">Audi</option>
-                                        </select>
-                                    </form></td>
-                                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
-                                </tr>
-                                <tr className="unread">
-                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
-                                    <td>
-                                        <h6 className="mb-1">Wooden work</h6>
-                                        <p className="m-0">Work regarding wood chairs, tables, wordrobe</p>
-                                    </td>
-                                    <td>
-                                        <h6 className="text-muted f-w-300"><i className="fa fa-circle text-c-red f-10 m-r-15"/>15 Jun - 15 Aug</h6>
-                                    </td>
-                                    <td>
-                                    <form>
-                                        <label htmlFor="cars">Choose a contract:</label>
-                                        <select id="contract" name="contract">
-                                            <option value="volvo">Volvo</option>
-                                            <option value="saab">Saab</option>
-                                            <option value="fiat">Fiat</option>
-                                            <option value="audi">Audi</option>
-                                        </select>
-                                    </form></td>
-                                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
-                                </tr>
-                                <tr className="unread">
-                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
-                                    <td>
-                                        <h6 className="mb-1">Electricity Work</h6>
-                                        <p className="m-0">work regarding electricity on each floor, rooms and as per mentioned in map</p>
-                                    </td>
-                                    <td>
-                                        <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>20 Jun - 20 Aug</h6>
-                                    </td>
-                                    <td>
-                                    <form>
-                                        <label htmlFor="cars">Choose a contract:</label>
-                                        <select id="contract" name="contract">
-                                            <option value="volvo">Volvo</option>
-                                            <option value="saab">Saab</option>
-                                            <option value="fiat">Fiat</option>
-                                            <option value="audi">Audi</option>
-                                        </select>
-                                    </form></td>
-                                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
-                                </tr>
+                                {
+                                    domains && (
+                                    domains.map((key, val)=>(
+                                        <tr key={val} className="unread">
+                                            <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
+                                            <td>
+                                                <h6 className="mb-1">{key.name}</h6>
+                                                <p className="m-0">{key.description}</p>
+                                            </td>
+                                            <td>
+                                                <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{key.date}</h6>
+                                            </td>
+                                            <td>
+                                            <form>
+                                                <label htmlFor="cars">Choose a contract: </label>
+                                                <select  style={{width:'60px'}} id="contract" name="contract">
+                                                    {
+                                                        allTenders.map((tender, index)=>(
+                                                            
+                                                                (tender.domain === key.name) ? (<option key={index} value={tender.name}>{tender.CompanyName}</option>) : (null)
+                                                            
+                                                        ))
+                                                    }
+                                                </select>
+                                            </form></td>
+                                            {// <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Reject</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Approve</a></td>
+                                            }<td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
+                                        </tr>
+                                    )))
+                                }
                                 </tbody>
                             </Table>
                         </Card.Body>
