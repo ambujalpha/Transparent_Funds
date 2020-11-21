@@ -1,6 +1,7 @@
 export default {
     defaultPath: '/dashboard/default',
     timeline: '/timeline/timeline',
+    result: '/result/result',
     voting: '/voting/voting',
     contract: '/contract/contract',
     basename: '/datta-able/react/default', // only at build time to set, like /datta-able

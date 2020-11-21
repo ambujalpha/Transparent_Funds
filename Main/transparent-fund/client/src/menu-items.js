@@ -60,6 +60,21 @@ export default {
                 }
             ]
         },
+        {
+            id: 'result',
+            title: 'Result',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'result',
+                    title: 'Result',
+                    type: 'item',
+                    url: '/result/result',
+                    icon: 'feather icon-home',
+                }
+            ]
+        },
         /*
         {
             id: 'ui-element',
