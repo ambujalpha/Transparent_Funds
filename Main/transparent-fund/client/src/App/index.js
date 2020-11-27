@@ -28,7 +28,6 @@ class App extends Component {
                   )} />
           ) : (null);
         });
-
         return (
             <Aux>
                 <ScrollToTop>

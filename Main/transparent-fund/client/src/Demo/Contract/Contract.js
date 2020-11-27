@@ -13,9 +13,9 @@ const FormsElements = () => {
     const [companyName, setCompanyName] = useState('')
     const [amount, setAmount] = useState('')
     const [prevWork, setPrevWork] = useState('')
-    const [domain, setDomain] = useState(null)
+    const [domain, setDomain] = useState()
 
-    const initMetamask = async () => {
+    const initMetamask = async () => {  
         console.log('clicked') 
         window.ethereum.enable()
         //setting up web3 to talk to meta mask
@@ -33,7 +33,7 @@ const FormsElements = () => {
         setAccounts(acc[0])
         setContract(instance)
     
-      }; 
+    }; 
     useEffect(() => {
         async function intialize(){
             await initMetamask();
@@ -104,6 +104,7 @@ const FormsElements = () => {
                                         <Form.Group controlId="exampleForm.ControlSelect1">
                                             <Form.Label>Select Domain</Form.Label>
                                             <Form.Control onChange={(e) => {setDomain(e.target.value)}} as="select">
+                                                <option disabled selected value> -- select an option -- </option>
                                                 {
                                                     domains && (
                                                     domains.map((key, val) => (

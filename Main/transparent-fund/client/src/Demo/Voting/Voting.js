@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 import React,{useState, useEffect} from 'react';
-import {Row, Col, Card, Table, Tabs, Tab} from 'react-bootstrap';
+import {Row, Col, Card, Table, Tabs, Tab, Form} from 'react-bootstrap';
 import domains from '../../assets/Domains'
 import Aux from "../../hoc/_Aux";
 import DEMO from "../../store/constant";
@@ -17,7 +17,8 @@ const Dashboard  = () => {
     const [votingContract, setVotingContract] = useState(null);
     const [bidContract, setBidContract] = useState(null);
     const [allVoters, setAllVoters] = useState([]);
-    const [allTenders, setAllTenders] = useState([])
+    const [allTenders, setAllTenders] = useState([]);
+    const [voteTo, setVoteTo] = useState(null);
     useEffect(() => {
         async function intialize(){
           await initMetamask();
@@ -63,6 +64,7 @@ const Dashboard  = () => {
                     })
                 }
                 setAllVoters(arr);
+                console.log('all voters',arr);
             })
         }   
         if(votingContract){
@@ -82,6 +84,7 @@ const Dashboard  = () => {
                     })
                 }
                 setAllTenders(arr);
+            //    console.log(arr)
             })
         }   
         if(bidContract){
@@ -117,7 +120,37 @@ const Dashboard  = () => {
             }
         </Aux>
     );
-
+    const _voteCandidate = (domain) => {
+        if(!voteTo){
+            alert('please select an option');
+            return;
+        }
+        if(!accounts){
+            alert('unable to get accounts credentials from metamask!');
+            return;
+        }
+        let found = false;
+        if(allVoters && accounts){
+            allVoters.forEach(async (v, i) => {
+                if(v.myAddress === accounts){
+                    found = true;
+                    if(!v.voted){
+                        await votingContract.methods.voteTo(accounts, voteTo ).send({from: accounts});
+                        return;
+                    }else{
+                        alert('you have already voted!');
+                        return;
+                    }
+                }
+            })
+            if(!found)
+                alert('you are not authorized to vote!')
+        }
+        console.log(domain, voteTo);
+    }
+    // const _helper = (b) => {
+    //     console.log(b)
+    // }
     return (
         <Aux>
             <Row>
@@ -144,18 +177,25 @@ const Dashboard  = () => {
                                             <td>
                                             <form>
                                                 <label htmlFor="cars">Choose a contract: </label>
-                                                <select  style={{width:'60px'}} id="contract" name="contract">
+                                                {/* <select  style={{width:'60px'}} id="contract" name="contract"> */}
+                                                <select onChange={(e) =>{setVoteTo(e.target.value)}} as="select">
+                                                    <option disabled selected value> -- select an option -- </option>
                                                     {
                                                         allTenders.map((tender, index)=>(
-                                                            
-                                                                (tender.domain === key.name) ? (<option key={index} value={tender.name}>{tender.CompanyName}</option>) : (null)
+                                                                
+                                                                (tender.domain === key.name) ? 
+                                                                (<option key={index} >
+                                                                    {tender.CompanyName}
+                                                                </option>) : 
+                                                                (null)
                                                             
                                                         ))
                                                     }
                                                 </select>
+                                                {/* </select> */}
                                             </form></td>
                                             {// <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Reject</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Approve</a></td>
-                                            }<td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
+                                            }<td><a  href={DEMO.BLANK_LINK} onClick={() => {_voteCandidate(key.name)}} className="label theme-bg text-white f-12">Apply</a></td>
                                         </tr>
                                     )))
                                 }
