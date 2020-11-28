@@ -1,11 +1,12 @@
 /* eslint-disable no-loop-func */
 import React,{useState, useEffect} from 'react';
 import {Row, Col, Card, Table, Tabs, Tab, Form} from 'react-bootstrap';
-import domains from '../../assets/Domains'
+// import domains from '../../assets/Domains'
 import Aux from "../../hoc/_Aux";
 import DEMO from "../../store/constant";
 import VoterContract from '../../contracts/Voter.json';
 import BidContract from '../../contracts/Bidding.json';
+import DomainContract from '../../contracts/Domain.json';
 import Web3 from 'web3';
 
 import avatar1 from '../../assets/images/user/avatar-1.jpg';
@@ -16,8 +17,10 @@ const Dashboard  = () => {
     const [accounts, setAccounts] = useState(null);
     const [votingContract, setVotingContract] = useState(null);
     const [bidContract, setBidContract] = useState(null);
+    const [domainContract, setDomainContract] = useState(null)  
     const [allVoters, setAllVoters] = useState([]);
     const [allTenders, setAllTenders] = useState([]);
+    const [allDomains, setAllDomains] = useState([]);
     const [voteTo, setVoteTo] = useState(null);
     useEffect(() => {
         async function intialize(){
@@ -36,6 +39,7 @@ const Dashboard  = () => {
         console.log('accounts', acc)
         const deployedVoterNetwork = VoterContract.networks["5777"];
         const deployedBidNetwork = BidContract.networks["5777"];
+        const deployedDomainNetwork = DomainContract.networks["5777"];
 
         const VoterInstance = new web3.eth.Contract(
             VoterContract.abi,
@@ -45,12 +49,18 @@ const Dashboard  = () => {
             BidContract.abi,
             deployedBidNetwork && deployedBidNetwork.address
         );
+        const DomainInstance = new web3.eth.Contract(
+            DomainContract.abi,
+            deployedDomainNetwork && deployedDomainNetwork.address
+        );
         console.log('voter deployed network is', VoterInstance)
         console.log('bidder deployed network is', BidInstance)
+        console.log('Domain network is', DomainInstance)
 
         setAccounts(acc[0]);
         setBidContract(BidInstance);
         setVotingContract(VoterInstance);
+        setDomainContract(DomainInstance);
     };
     useEffect(() => {
         const getAllVoters = async() => {
@@ -91,7 +101,26 @@ const Dashboard  = () => {
             getAllTenders()
         } 
     }, [bidContract])
-
+    useEffect(() => {
+        const getAllDomains = async () => {
+            await domainContract.methods.getNumDomain().call(async (err, num) => {
+                const numDomains = parseInt(num);
+                const arr = [];
+                console.log('total domains are: ', numDomains)
+                for (let index = 0; index < numDomains; index++) {
+                    await domainContract.methods.domains(index).call((err, domain)=>{
+                        arr.push(domain)
+                    //  console.log('tender: ',tender)
+                    })
+                }
+                setAllDomains(arr);
+            //    console.log(arr)
+            })
+        }
+        if(domainContract){
+            getAllDomains();
+        }
+    }, [domainContract])
     const tabContent = (
         <Aux>
             {
@@ -163,9 +192,9 @@ const Dashboard  = () => {
                             <Table responsive hover>
                                 <tbody>
                                 {
-                                    domains && (
-                                    domains.map((key, val)=>(
-                                        <tr key={val} className="unread">
+                                    allDomains && (
+                                    allDomains.map((key, val)=>(
+                                        <tr style={(!key.enabled)?stylesheet.domains:null} key={val} className="unread">
                                             <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
                                             <td>
                                                 <h6 className="mb-1">{key.name}</h6>
@@ -178,8 +207,8 @@ const Dashboard  = () => {
                                             <form>
                                                 <label htmlFor="cars">Choose a contract: </label>
                                                 {/* <select  style={{width:'60px'}} id="contract" name="contract"> */}
-                                                <select onChange={(e) =>{setVoteTo(e.target.value)}} as="select">
-                                                    <option disabled selected value> -- select an option -- </option>
+                                                <select defaultValue={'DEFAULT'} onChange={(e) =>{setVoteTo(e.target.value)}} as="select">
+                                                    <option value="DEFAULT" disabled> -- select an option -- </option>
                                                     {
                                                         allTenders.map((tender, index)=>(
                                                                 
@@ -195,7 +224,7 @@ const Dashboard  = () => {
                                                 {/* </select> */}
                                             </form></td>
                                             {// <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Reject</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Approve</a></td>
-                                            }<td><a  href={DEMO.BLANK_LINK} onClick={() => {_voteCandidate(key.name)}} className="label theme-bg text-white f-12">Apply</a></td>
+                                            }<td><a href={DEMO.BLANK_LINK} onClick={() => {_voteCandidate(key.name)}} className="label theme-bg text-white f-12">Vote</a></td>
                                         </tr>
                                     )))
                                 }
@@ -231,6 +260,13 @@ const Dashboard  = () => {
             </Row>
         </Aux>
     );
+}
+
+const stylesheet = {
+    domains:{
+        backgroundColor:'#f2f2f2', 
+        pointerEvents:"none"
+    }
 }
 
 export default Dashboard;

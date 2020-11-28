@@ -2,6 +2,7 @@
 import React,{useEffect, useState} from 'react';
 import {Row, Col, Card, Table, Tabs, Tab, Form, Button} from 'react-bootstrap';
 import VoterContract from '../../contracts/Voter.json';
+import DomainContract from '../../contracts/Domain.json';
 import Web3 from 'web3';
 
 import Aux from "../../hoc/_Aux";
@@ -18,6 +19,9 @@ const Dashboard = () =>{
     const [memberName, setMemberName] = useState('');
     const [memberAddress, setMemberAddress] = useState('');
     const [memberDesignation, setMemberDesignation] = useState('');
+    const [allDomains, setAllDomains] = useState([]);
+    const [domainContract, setDomainContract] = useState(null)  
+
     useEffect(() => {
         async function intialize(){
           await initMetamask();
@@ -34,12 +38,18 @@ const Dashboard = () =>{
         const acc = await web3.eth.getAccounts()
         console.log('accounts', acc)
         const deployedNetwork = VoterContract.networks["5777"];
-    
+        const deployedDomainNetwork = DomainContract.networks["5777"];
+
         const instance = new web3.eth.Contract(
             VoterContract.abi,
           deployedNetwork && deployedNetwork.address
         );
-        console.log('deployed network is', instance)
+        
+        const DomainInstance = new web3.eth.Contract(
+            DomainContract.abi,
+            deployedDomainNetwork && deployedDomainNetwork.address
+        );
+        // console.log('deployed network is', instance)
 
         // instance.methods.setOwner().send({from: acc[0]})
         //to check if current user is owner
@@ -54,8 +64,29 @@ const Dashboard = () =>{
         // })
         setAccounts(acc[0])
         setContract(instance)
-    
-      }; 
+        setDomainContract(DomainInstance);
+
+      };
+      useEffect(() => {
+        const getAllDomains = async () => {
+            await domainContract.methods.getNumDomain().call(async (err, num) => {
+                const numDomains = parseInt(num);
+                const arr = [];
+                console.log('total domains are: ', numDomains)
+                for (let index = 0; index < numDomains; index++) {
+                    await domainContract.methods.domains(index).call((err, domain)=>{
+                        arr.push(domain)
+                    //  console.log('tender: ',tender)
+                    })
+                }
+                setAllDomains(arr);
+            //    console.log(arr)
+            })
+        }
+        if(domainContract){
+            getAllDomains();
+        }
+    }, [domainContract]) 
     const tabContent = (
         <Aux>
             <div className="media friendlist-box align-items-center justify-content-center m-b-20">
@@ -146,6 +177,29 @@ const Dashboard = () =>{
                 } catch (error) {
                     console.log('error in create Committee: ', error);
                 }   
+            }
+        }
+    }
+    const _disableDomain = async (id) => {
+        if(domainContract){
+            await domainContract.methods.disableDomain(id).send({from: accounts});
+        }
+    }
+    const _enableDomain = async (id) => {
+        if(domainContract){
+            if(allDomains && allDomains.length){
+                let found = false;
+                for (let index = 0; index < allDomains.length; index++) {
+                    console.log(allDomains[index]);
+                    if(allDomains[index].enabled === true){
+                        alert('end active contracs first!');
+                        found = true;
+                        return;
+                    }
+                }
+                if(!found){
+                    await domainContract.methods.enableDomain(id).send({from: accounts});
+                }
             }
         }
     }
@@ -248,63 +302,33 @@ const Dashboard = () =>{
                         <Card.Body className='px-0 py-2'>
                             <Table responsive hover>
                                 <tbody>
-                                <tr className="unread">
-                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
-                                    <td>
-                                        <h6 className="mb-1">Fire Alarm System</h6>
-                                        <p className="m-0">Includes Smoke Detection and Fire extingusher on each floor</p>
-                                    </td>
-                                    <td>
-                                        <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>10 MAY - 10 July</h6>
-                                    </td>
-                                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Start</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">End</a></td>
-                                    {//<td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
+                                    {
+                                        allDomains && (
+                                            allDomains.map((val,index) => (
+                                                <tr key={index} className="unread">
+                                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
+                                                    <td>
+                                                        <h6 className="mb-1">{val.name}</h6>
+                                                        <p className="m-0">{val.description}</p>
+                                                    </td>
+                                                    <td>
+                                                        <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>{val.date}</h6>
+                                                    </td>
+                                                    <td>
+                                                        {
+                                                            (val.enabled)?
+                                                            (<a onClick={()=>{_disableDomain(val.id)}} href='#!' className="label theme-bg text-white f-12">End</a>):
+                                                            (<a onClick={()=>{_enableDomain(val.id)}} href={DEMO.BLANK_LINK} className="label theme-bg2  text-white f-12">Start</a>)
+                                                        }
+                                                        
+                                                    </td>
+                                                    {//<td><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Apply</a></td>
+                                                    }
+                                                </tr>
+                                            ))
+                                        )
                                     }
-                                </tr>
-                                <tr className="unread">
-                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
-                                    <td>
-                                        <h6 className="mb-1">Water System</h6>
-                                        <p className="m-0">Includes work of water tank, water system in whole school and plumber work</p>
-                                    </td>
-                                    <td>
-                                        <h6 className="text-muted"><i className="fa fa-circle text-c-red f-10 m-r-15"/>15 MAY - 15 July </h6>
-                                    </td>
-                                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Start</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">End</a></td>
-                                </tr>
-                                <tr className="unread">
-                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar3} alt="activity-user"/></td>
-                                    <td>
-                                        <h6 className="mb-1">Basic Contruction</h6>
-                                        <p className="m-0">Design whole building as per the contruction designs</p>
-                                    </td>
-                                    <td>
-                                        <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>10 Jan - 10 Jun</h6>
-                                    </td>
-                                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Start</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">End</a></td>
-                                </tr>
-                                <tr className="unread">
-                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></td>
-                                    <td>
-                                        <h6 className="mb-1">Wooden work</h6>
-                                        <p className="m-0">Work regarding wood chairs, tables, wordrobe</p>
-                                    </td>
-                                    <td>
-                                        <h6 className="text-muted f-w-300"><i className="fa fa-circle text-c-red f-10 m-r-15"/>15 Jun - 15 Aug</h6>
-                                    </td>
-                                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Start</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">End</a></td>
-                                </tr>
-                                <tr className="unread">
-                                    <td><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></td>
-                                    <td>
-                                        <h6 className="mb-1">Electricity Work</h6>
-                                        <p className="m-0">work regarding electricity on each floor, rooms and as per mentioned in map</p>
-                                    </td>
-                                    <td>
-                                        <h6 className="text-muted"><i className="fa fa-circle text-c-green f-10 m-r-15"/>20 Jun - 20 Aug</h6>
-                                    </td>
-                                    <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Start</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">End</a></td>
-                                </tr>
+                                    
                                 </tbody>
                             </Table>
                         </Card.Body>

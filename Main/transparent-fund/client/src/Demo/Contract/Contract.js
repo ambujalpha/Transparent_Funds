@@ -4,6 +4,7 @@ import Bidding from '../../contracts/Bidding.json';
 import Web3 from 'web3';
 import domains from '../../assets/Domains'
 import Aux from "../../hoc/_Aux";
+import DomainContract from '../../contracts/Domain.json';
 
 const FormsElements = () => {
 
@@ -14,6 +15,8 @@ const FormsElements = () => {
     const [amount, setAmount] = useState('')
     const [prevWork, setPrevWork] = useState('')
     const [domain, setDomain] = useState()
+    const [allDomains, setAllDomains] = useState([]);
+    const [domainContract, setDomainContract] = useState(null)  
 
     const initMetamask = async () => {  
         console.log('clicked') 
@@ -22,17 +25,23 @@ const FormsElements = () => {
         const web3 = new Web3(Web3.givenProvider);
         const acc = await web3.eth.getAccounts()
         const deployedNetwork = Bidding.networks["5777"];
+        const deployedDomainNetwork = DomainContract.networks["5777"];
+        
         console.log('deployed network is: ', deployedNetwork)
         const instance = new web3.eth.Contract(
-          Bidding.abi,
-          deployedNetwork && deployedNetwork.address
+            Bidding.abi,
+            deployedNetwork && deployedNetwork.address
         );
-            
+        const DomainInstance = new web3.eth.Contract(
+            DomainContract.abi,
+            deployedDomainNetwork && deployedDomainNetwork.address
+        );   
         console.log('contract is',instance);
         console.log('account is',acc);
         setAccounts(acc[0])
         setContract(instance)
-    
+        setDomainContract(DomainInstance);
+
     }; 
     useEffect(() => {
         async function intialize(){
@@ -41,7 +50,26 @@ const FormsElements = () => {
         intialize();
         window.ethereum.on('accountsChanged', intialize)
     }, [])
-
+    useEffect(() => {
+        const getAllDomains = async () => {
+            await domainContract.methods.getNumDomain().call(async (err, num) => {
+                const numDomains = parseInt(num);
+                const arr = [];
+                console.log('total domains are: ', numDomains)
+                for (let index = 0; index < numDomains; index++) {
+                    await domainContract.methods.domains(index).call((err, domain)=>{
+                        arr.push(domain)
+                    //  console.log('tender: ',tender)
+                    })
+                }
+                setAllDomains(arr);
+            //    console.log(arr)
+            })
+        }
+        if(domainContract){
+            getAllDomains();
+        }
+    }, [domainContract]) 
     const formResponse = async (event) => {
         if(!domain){
             alert('select domain');
@@ -103,11 +131,11 @@ const FormsElements = () => {
                                         </Form.Group>
                                         <Form.Group controlId="exampleForm.ControlSelect1">
                                             <Form.Label>Select Domain</Form.Label>
-                                            <Form.Control onChange={(e) => {setDomain(e.target.value)}} as="select">
-                                                <option disabled selected value> -- select an option -- </option>
+                                            <Form.Control defaultValue={'DEFAULT'} onChange={(e) => {setDomain(e.target.value)}} as="select">
+                                                <option value="DEFAULT" disabled> -- select an option -- </option>
                                                 {
-                                                    domains && (
-                                                    domains.map((key, val) => (
+                                                    allDomains && (
+                                                        allDomains.map((key, val) => (
                                                         <option key={val}>{key.name}</option>
                                                     )))
                                                 }
