@@ -1,10 +1,10 @@
 export default {
-    defaultPath: '/dashboard/default',
+    defaultPath: '/timeline/timeline',
     timeline: '/timeline/timeline',
     result: '/result/result',
     voting: '/voting/voting',
     contract: '/contract/contract',
-    basename: '/datta-able/react/default', // only at build time to set, like /datta-able
+    basename: '/crystalIndia/blockchain', // only at build time to set, like /datta-able
     layout: 'vertical', // vertical, horizontal (not available in lite version)
     preLayout: null, // (not available in lite version)
     collapseMenu: false, // mini-menu

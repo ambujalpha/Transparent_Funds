@@ -5,8 +5,6 @@ window.jQuery = $;
 window.$ = $;
 global.jQuery = $;
 
-const DashboardDefault = React.lazy(() => import('./Demo/Dashboard/Default'));
-
 const TimelineTimeline = React.lazy(() => import('./Demo/Timeline/Timeline'));
 
 const VotingVoting = React.lazy(() => import('./Demo/Voting/Voting'));
@@ -35,7 +33,6 @@ const OtherSamplePage = React.lazy(() => import('./Demo/Other/SamplePage'));
 const OtherDocs = React.lazy(() => import('./Demo/Other/Docs'));
 
 const routes = [
-    { path: '/dashboard/default', exact: true, name: 'Default', component: DashboardDefault },
     { path: '/voting/voting', exact: true, name: 'Voting', component: VotingVoting },
     { path: '/contract/contract', exact: true, name: 'Contract', component: ContractContract },
     { path: '/timeline/timeline', exact: true, name: 'Timeline', component: TimelineTimeline },
