@@ -143,7 +143,7 @@ const Dashboard  = () => {
                 :
                 (
                     <div >
-                        <h6 >No voter present</h6>
+                        <h6 >No committee members present</h6>
                     </div>
                 )
             }
@@ -161,6 +161,7 @@ const Dashboard  = () => {
         let found = false;
         if(allVoters && accounts){
             allVoters.forEach(async (v, i) => {
+                console.log(v);
                 if(v.myAddress === accounts){
                     found = true;
                     if(!v.voted){
@@ -205,26 +206,31 @@ const Dashboard  = () => {
                                             </td>
                                             <td>
                                             <form>
-                                                <label htmlFor="cars">Choose a contract: </label>
+                                                <label htmlFor="cars">Total responses: {allTenders.filter(tender => tender.domain === key.name).length}</label>
+                                                {/* <label htmlFor="cars">Choose a contract: </label> */}
                                                 {/* <select  style={{width:'60px'}} id="contract" name="contract"> */}
-                                                <select defaultValue={'DEFAULT'} onChange={(e) =>{setVoteTo(e.target.value)}} as="select">
-                                                    <option value="DEFAULT" disabled> -- select an option -- </option>
+                                                {/* <select defaultValue={'DEFAULT'} onChange={(e) =>{setVoteTo(e.target.value)}} as="select"> */}
+                                                    {/* <option value="DEFAULT" disabled> -- select an option -- </option> */}
                                                     {
-                                                        allTenders.map((tender, index)=>(
+                                                        // allTenders.map((tender, index)=>(
                                                                 
-                                                                (tender.domain === key.name) ? 
-                                                                (<option key={index} >
-                                                                    {tender.CompanyName}
-                                                                </option>) : 
-                                                                (null)
+                                                        //         (tender.domain === key.name) ? 
+                                                        //         (<option key={index} >
+                                                        //             {tender.CompanyName}
+                                                        //         </option>) : 
+                                                        //         (null)
                                                             
-                                                        ))
+                                                        // ))
                                                     }
-                                                </select>
                                                 {/* </select> */}
-                                            </form></td>
+                                                {/* </select> */}
+                                            </form>
+                                            </td>
                                             {// <td><a href={DEMO.BLANK_LINK} className="label theme-bg2 text-white f-12">Reject</a><a href={DEMO.BLANK_LINK} className="label theme-bg text-white f-12">Approve</a></td>
-                                            }<td><a href={DEMO.BLANK_LINK} onClick={() => {_voteCandidate(key.name)}} className="label theme-bg text-white f-12">Vote</a></td>
+                                            }
+                                            {/* <td>
+                                                <a href={DEMO.BLANK_LINK} onClick={() => {_voteCandidate(key.name)}} className="label theme-bg text-white f-12">Vote</a>
+                                            </td> */}
                                         </tr>
                                     )))
                                 }
@@ -250,7 +256,7 @@ const Dashboard  = () => {
                 </Col>
 
                 <Col md={6} xl={8} className='m-b-30'>
-                    <h3><span className="text-muted">Voting Members</span></h3>
+                    <h3><span className="text-muted">Committee Members</span></h3>
                     <Tabs defaultActiveKey="today" id="uncontrolled-tab-example">
                         <Tab eventKey="today" title="Today">
                             {tabContent}

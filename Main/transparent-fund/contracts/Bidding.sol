@@ -7,12 +7,13 @@ contract Bidding {
         string CompanyName;
         string prevWork;
         string domain;
+        string contractID;
     }
     
     Bid [] public topBids;
     
-    function setTopBids(uint _cost, string memory _companyName, string memory _prevWork, string memory _domain) public {
-        topBids.push(Bid(_cost, _companyName, _prevWork, _domain));
+    function setTopBids(uint _cost, string memory _companyName, string memory _prevWork, string memory _domain, string memory _contractID) public {
+        topBids.push(Bid(_cost, _companyName, _prevWork, _domain, _contractID));
     }
     function getNumBids() public view returns(uint){
         return topBids.length;

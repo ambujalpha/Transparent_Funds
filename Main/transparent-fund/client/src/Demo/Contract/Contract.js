@@ -5,6 +5,7 @@ import Web3 from 'web3';
 import domains from '../../assets/Domains'
 import Aux from "../../hoc/_Aux";
 import DomainContract from '../../contracts/Domain.json';
+import ContractID from '../../assets/ContractID';
 
 const FormsElements = () => {
 
@@ -13,6 +14,7 @@ const FormsElements = () => {
     const [contract, setContract] = useState(null);
     const [companyName, setCompanyName] = useState('')
     const [amount, setAmount] = useState('')
+    const [contractNumber, setContractNumber] = useState('')
     const [prevWork, setPrevWork] = useState('')
     const [domain, setDomain] = useState()
     const [allDomains, setAllDomains] = useState([]);
@@ -79,9 +81,17 @@ const FormsElements = () => {
             alert('fill all the fields');
             return;
         }
+        if(!contractNumber){
+            alert('please enter contract number');
+            return;
+        }
+        if(ContractID.filter(x => x.ID === contractNumber.toString()).length === 0){
+            alert('invalid contract id, please register yourself first!');
+            return;
+        }
         if(contract){
             console.log('domain is', domain);
-           const x = await contract.methods.setTopBids(parseInt(amount), companyName, prevWork, domain).send({from: accounts});
+           const x = await contract.methods.setTopBids(parseInt(amount), companyName, prevWork, domain, contractNumber).send({from: accounts});
            console.log('respo is:',x);
            contract.methods.getNumBids().call((err, res) => {
                console.log('number is', res);
@@ -129,7 +139,7 @@ const FormsElements = () => {
                                                 </Form.Group>
                                                 <Form.Group controlId="formBasicPassword">
                                                     <Form.Label>Contract Number</Form.Label>
-                                                    <Form.Control value={amount} onChange={(e)=>{setAmount(e.target.value)}} type="number" placeholder="Contract Number" />
+                                                    <Form.Control value={contractNumber} onChange={(e)=>{setContractNumber(e.target.value)}} type="number" placeholder="Contract Number" />
                                                 </Form.Group>
                                             </Form>
                                         
@@ -156,8 +166,11 @@ const FormsElements = () => {
                                             <Form.Control value={prevWork} onChange={(e)=>{setPrevWork(e.target.value)}} as="textarea" rows="2" />
                                         </Form.Group>
                                         <Form.Group controlId="formBasicPassword">
-                                            <Form.Label>Contract Number</Form.Label>
-                                            <Form.Control value={amount} onChange={(e)=>{setAmount(e.target.value)}} type="number" placeholder="Contract Number" />
+                                            <Form.Label>Phone Number</Form.Label>
+                                            <Form.Control type="number" placeholder="contact number" />
+                                            <Form.Text className="text-muted">
+                                                We'll never share your phone number with anyone else.
+                                            </Form.Text>
                                         </Form.Group>
                                     </Col>
                                     <Col md={6} >

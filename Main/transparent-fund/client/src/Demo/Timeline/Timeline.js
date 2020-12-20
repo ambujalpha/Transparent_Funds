@@ -87,64 +87,64 @@ const Dashboard = () =>{
             getAllDomains();
         }
     }, [domainContract]) 
-    const tabContent = (
-        <Aux>
-            <div className="media friendlist-box align-items-center justify-content-center m-b-20">
-                <div className="m-r-10 photo-table">
-                    <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></a>
-                </div>
-                <div className="media-body">
-                    <h6 className="m-0 d-inline">Silje Larsen</h6>
-                    <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-up f-22 m-r-10 text-c-green"/>3784</span>
-                </div>
-            </div>
-            <div className="media friendlist-box align-items-center justify-content-center m-b-20">
-                <div className="m-r-10 photo-table">
-                    <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></a>
-                </div>
-                <div className="media-body">
-                    <h6 className="m-0 d-inline">Julie Vad</h6>
-                    <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-up f-22 m-r-10 text-c-green"/>3544</span>
-                </div>
-            </div>
-            <div className="media friendlist-box align-items-center justify-content-center m-b-20">
-                <div className="m-r-10 photo-table">
-                    <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar3} alt="activity-user"/></a>
-                </div>
-                <div className="media-body">
-                    <h6 className="m-0 d-inline">Storm Hanse</h6>
-                    <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-down f-22 m-r-10 text-c-red"/>2739</span>
-                </div>
-            </div>
-            <div className="media friendlist-box align-items-center justify-content-center m-b-20">
-                <div className="m-r-10 photo-table">
-                    <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></a>
-                </div>
-                <div className="media-body">
-                    <h6 className="m-0 d-inline">Frida Thomse</h6>
-                    <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-down f-22 m-r-10 text-c-red"/>1032</span>
-                </div>
-            </div>
-            <div className="media friendlist-box align-items-center justify-content-center m-b-20">
-                <div className="m-r-10 photo-table">
-                    <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></a>
-                </div>
-                <div className="media-body">
-                    <h6 className="m-0 d-inline">Silje Larsen</h6>
-                    <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-up f-22 m-r-10 text-c-green"/>8750</span>
-                </div>
-            </div>
-            <div className="media friendlist-box align-items-center justify-content-center">
-                <div className="m-r-10 photo-table">
-                    <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar3} alt="activity-user"/></a>
-                </div>
-                <div className="media-body">
-                    <h6 className="m-0 d-inline">Storm Hanse</h6>
-                    <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-down f-22 m-r-10 text-c-red"/>8750</span>
-                </div>
-            </div>
-        </Aux>
-    );
+    // const tabContent = (
+    //     <Aux>
+    //         <div className="media friendlist-box align-items-center justify-content-center m-b-20">
+    //             <div className="m-r-10 photo-table">
+    //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></a>
+    //             </div>
+    //             <div className="media-body">
+    //                 <h6 className="m-0 d-inline">Silje Larsen</h6>
+    //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-up f-22 m-r-10 text-c-green"/>3784</span>
+    //             </div>
+    //         </div>
+    //         <div className="media friendlist-box align-items-center justify-content-center m-b-20">
+    //             <div className="m-r-10 photo-table">
+    //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></a>
+    //             </div>
+    //             <div className="media-body">
+    //                 <h6 className="m-0 d-inline">Julie Vad</h6>
+    //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-up f-22 m-r-10 text-c-green"/>3544</span>
+    //             </div>
+    //         </div>
+    //         <div className="media friendlist-box align-items-center justify-content-center m-b-20">
+    //             <div className="m-r-10 photo-table">
+    //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar3} alt="activity-user"/></a>
+    //             </div>
+    //             <div className="media-body">
+    //                 <h6 className="m-0 d-inline">Storm Hanse</h6>
+    //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-down f-22 m-r-10 text-c-red"/>2739</span>
+    //             </div>
+    //         </div>
+    //         <div className="media friendlist-box align-items-center justify-content-center m-b-20">
+    //             <div className="m-r-10 photo-table">
+    //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar1} alt="activity-user"/></a>
+    //             </div>
+    //             <div className="media-body">
+    //                 <h6 className="m-0 d-inline">Frida Thomse</h6>
+    //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-down f-22 m-r-10 text-c-red"/>1032</span>
+    //             </div>
+    //         </div>
+    //         <div className="media friendlist-box align-items-center justify-content-center m-b-20">
+    //             <div className="m-r-10 photo-table">
+    //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar2} alt="activity-user"/></a>
+    //             </div>
+    //             <div className="media-body">
+    //                 <h6 className="m-0 d-inline">Silje Larsen</h6>
+    //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-up f-22 m-r-10 text-c-green"/>8750</span>
+    //             </div>
+    //         </div>
+    //         <div className="media friendlist-box align-items-center justify-content-center">
+    //             <div className="m-r-10 photo-table">
+    //                 <a href={DEMO.BLANK_LINK}><img className="rounded-circle" style={{width: '40px'}} src={avatar3} alt="activity-user"/></a>
+    //             </div>
+    //             <div className="media-body">
+    //                 <h6 className="m-0 d-inline">Storm Hanse</h6>
+    //                 <span className="float-right d-flex  align-items-center"><i className="fa fa-caret-down f-22 m-r-10 text-c-red"/>8750</span>
+    //             </div>
+    //         </div>
+    //     </Aux>
+    // );
     const createCommitteeHandler = async () => {
         if(!memberName || !memberAddress || !memberDesignation){
             alert('kuch daalo to');
@@ -183,26 +183,27 @@ const Dashboard = () =>{
     const _disableDomain = async (id) => {
         if(domainContract){
             await domainContract.methods.disableDomain(id).send({from: accounts});
+            window.location.reload();
         }
     }
-    const _enableDomain = async (id) => {
-        if(domainContract){
-            if(allDomains && allDomains.length){
-                let found = false;
-                for (let index = 0; index < allDomains.length; index++) {
-                    console.log(allDomains[index]);
-                    if(allDomains[index].enabled === true){
-                        alert('end active contracs first!');
-                        found = true;
-                        return;
-                    }
-                }
-                if(!found){
-                    await domainContract.methods.enableDomain(id).send({from: accounts});
-                }
-            }
-        }
-    }
+    // const _enableDomain = async (id) => {
+    //     if(domainContract){
+    //         if(allDomains && allDomains.length){
+    //             let found = false;
+    //             for (let index = 0; index < allDomains.length; index++) {
+    //                 console.log(allDomains[index]);
+    //                 if(allDomains[index].enabled === true){
+    //                     alert('end active contracs first!');
+    //                     found = true;
+    //                     return;
+    //                 }
+    //             }
+    //             if(!found){
+    //                 await domainContract.methods.enableDomain(id).send({from: accounts});
+    //             }
+    //         }
+    //     }
+    // }
     return (
         <Aux>
             <Row>
@@ -261,7 +262,7 @@ const Dashboard = () =>{
                                                         {
                                                             (val.enabled)?
                                                             (<a onClick={()=>{_disableDomain(val.id)}} href='#!' className="label theme-bg text-white f-12">End</a>):
-                                                            (<a onClick={()=>{_enableDomain(val.id)}} href={DEMO.BLANK_LINK} className="label theme-bg2  text-white f-12">Start</a>)
+                                                            (<a style={{cursor:'not-allowed'}} onClick={()=>{alert('You already submitted it!')}} href={DEMO.BLANK_LINK} >Ended</a>)
                                                         }
                                                         
                                                     </td>
@@ -288,7 +289,7 @@ const Dashboard = () =>{
                                     <label className="label theme-bg2 text-white f-14 f-w-400 float-right">34%</label>
                                 </div>
                             </div>
-                            <h2 className="mt-2 f-w-300">45<sub className="text-muted f-14">Competitors</sub></h2>
+                            <h2 className="mt-2 f-w-300">5</h2>
                             <h6 className="text-muted mt-3 mb-0">You can register in for any contract</h6>
                             <i className="fa fa-angellist text-c-purple f-50"/>
                         </Card.Body>
