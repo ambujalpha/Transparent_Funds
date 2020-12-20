@@ -44,7 +44,7 @@ export default {
                     icon: 'feather icon-home',
                 }
             ]
-        },/*
+        },
         {
             id: 'result',
             title: 'Result',
@@ -59,7 +59,22 @@ export default {
                     icon: 'feather icon-home',
                 }
             ]
-        },*/
+        },
+        {
+            id: 'donation',
+            title: 'Donation',
+            type: 'group',
+            icon: 'icon-navigation',
+            children: [
+                {
+                    id: 'donation',
+                    title: 'Donation',
+                    type: 'item',
+                    url: '/donation/donation',
+                    icon: 'feather icon-home',
+                }
+            ]
+        },
         /*
         {
             id: 'ui-element',

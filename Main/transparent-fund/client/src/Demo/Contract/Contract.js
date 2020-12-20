@@ -100,7 +100,13 @@ const FormsElements = () => {
                                 <Card.Title as="h5">Fill the form to apply for contract</Card.Title>
                             </Card.Header>
                             <Card.Body>
-                                <h6>Fill the form Only Once, we will notify results via mail</h6>
+                                <h6>
+                                    Fill the form Only Once, we will notify results via mail,<br/>
+                                    Pre-requisite:<br/>
+                                    Should be a government verified company picking up the contract<br/>
+                                    Should have worked for at least 2 government contract<br/>
+                                    Fill your biggest contract number only here<br/>
+                                </h6>
                                 <hr/>
                                 <Row>
                                     <Col md={6}>
@@ -120,6 +126,10 @@ const FormsElements = () => {
                                                 <Form.Group controlId="formBasicPassword">
                                                     <Form.Label>Amount Proposed</Form.Label>
                                                     <Form.Control value={amount} onChange={(e)=>{setAmount(e.target.value)}} type="number" placeholder="Amount" />
+                                                </Form.Group>
+                                                <Form.Group controlId="formBasicPassword">
+                                                    <Form.Label>Contract Number</Form.Label>
+                                                    <Form.Control value={amount} onChange={(e)=>{setAmount(e.target.value)}} type="number" placeholder="Contract Number" />
                                                 </Form.Group>
                                             </Form>
                                         
@@ -143,7 +153,11 @@ const FormsElements = () => {
                                         </Form.Group>
                                         <Form.Group controlId="exampleForm.ControlTextarea1">
                                             <Form.Label>Tell us about your previous work</Form.Label>
-                                            <Form.Control value={prevWork} onChange={(e)=>{setPrevWork(e.target.value)}} as="textarea" rows="3" />
+                                            <Form.Control value={prevWork} onChange={(e)=>{setPrevWork(e.target.value)}} as="textarea" rows="2" />
+                                        </Form.Group>
+                                        <Form.Group controlId="formBasicPassword">
+                                            <Form.Label>Contract Number</Form.Label>
+                                            <Form.Control value={amount} onChange={(e)=>{setAmount(e.target.value)}} type="number" placeholder="Contract Number" />
                                         </Form.Group>
                                     </Col>
                                     <Col md={6} >
